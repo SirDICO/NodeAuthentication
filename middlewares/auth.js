@@ -1,4 +1,4 @@
-import { UnAuthenticatedError } from "../errors/index.js"
+import { UnAuthenticatedError, BadRequestError } from "../errors/index.js"
 import jwt from 'jsonwebtoken'
 
 
@@ -10,6 +10,9 @@ const auth = async (req, res, next)=>{
 
     const token = authHeader.split(' ')[1]
 
+    if(!process.env.JWT_SECRET || !process.env.JWT_LIFETIME){
+        throw new BadRequestError('JWT SECRET OR EXPIRY DATE NOT AVAILABLE')
+    }
     try {
         const payload = jwt.verify(token, process.env.JWT_SECRET)
        

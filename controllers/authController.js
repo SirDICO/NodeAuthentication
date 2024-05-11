@@ -7,13 +7,13 @@ const register = async(req, res) =>{
         const {fullname, username, email, password} = req.body
 
         if(!fullname || !username || !email  || !password){
-            throw new BadRequestError('Please provide all values')
+          throw new BadRequestError('please provide all values');
         }
-
         const userEmailAlreadyExists = await User.findOne({email});
         const userUsernameAlreadyExists = await User.findOne({username});
+       
         if(userEmailAlreadyExists  || userUsernameAlreadyExists){
-            throw new BadRequestError('Email or Username already in use')
+          throw new BadRequestError('Email or Username already in use')
         }
 
         const user = await User.create({fullname, username, email, password})
